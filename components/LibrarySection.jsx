@@ -68,6 +68,7 @@ function LibrarySection() {
           : data.workouts || data.data || [];
 
         setWorkouts(workoutList);
+        console.log(workoutList);
       } catch (err) {
         setError(err.message);
       } finally {

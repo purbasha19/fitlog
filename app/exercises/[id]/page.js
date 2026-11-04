@@ -13,7 +13,10 @@ export default function WorkoutDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [planCount, setPlanCount] = useState(0);
+  const [isWorkoutAdded, setIsWorkoutAdded] = useState(false);
 
+  // Fetch workout details
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
@@ -50,6 +53,36 @@ export default function WorkoutDetailsPage() {
     fetchWorkout();
   }, [id]);
 
+  // Track Today's Plan
+  useEffect(() => {
+    const updatePlan = () => {
+      const existingPlan = JSON.parse(
+        localStorage.getItem("fitlog-todays-plan") || "[]"
+      );
+
+      setPlanCount(existingPlan.length);
+
+      if (workout) {
+        const alreadyAdded = existingPlan.some(
+          (item) => String(item.id) === String(workout.id)
+        );
+
+        setIsWorkoutAdded(alreadyAdded);
+      }
+    };
+
+    updatePlan();
+
+    window.addEventListener("fitlog-updated", updatePlan);
+    window.addEventListener("storage", updatePlan);
+
+    return () => {
+      window.removeEventListener("fitlog-updated", updatePlan);
+      window.removeEventListener("storage", updatePlan);
+    };
+  }, [workout]);
+
+  // Add workout to Today's Plan
   const handleAddToPlan = () => {
     const existingPlan = JSON.parse(
       localStorage.getItem("fitlog-todays-plan") || "[]"
@@ -61,6 +94,11 @@ export default function WorkoutDetailsPage() {
 
     if (alreadyAdded) {
       setMessage("This workout is already in your plan!");
+      return;
+    }
+
+    if (existingPlan.length >= 5) {
+      setMessage("Your plan is full! You can add only 5 workouts.");
       return;
     }
 
@@ -76,6 +114,7 @@ export default function WorkoutDetailsPage() {
     setMessage(`${workout.name} added to today's plan!`);
   };
 
+  // Save workout for later
   const handleSaveWorkout = () => {
     const existingSaved = JSON.parse(
       localStorage.getItem("fitlog-saved-workouts") || "[]"
@@ -128,6 +167,8 @@ export default function WorkoutDetailsPage() {
       </main>
     );
   }
+
+  const isPlanFull = planCount >= 5;
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#0c0d10] px-4 py-8 text-white sm:px-6 sm:py-12 md:px-10">
@@ -244,9 +285,18 @@ export default function WorkoutDetailsPage() {
 
               <button
                 onClick={handleAddToPlan}
-                className="w-full rounded-full bg-[#ccff00] px-5 py-3 text-sm font-bold text-black transition hover:bg-white sm:w-auto sm:px-7 sm:text-base"
+                disabled={isPlanFull || isWorkoutAdded}
+                className={`w-full rounded-full px-5 py-3 text-sm font-bold transition sm:w-auto sm:px-7 sm:text-base ${
+                  isPlanFull || isWorkoutAdded
+                    ? "cursor-not-allowed bg-gray-600 text-gray-300"
+                    : "bg-[#ccff00] text-black hover:bg-white"
+                }`}
               >
-                + Add to Today's Plan
+                {isWorkoutAdded
+                  ? "✓ Already in Today's Plan"
+                  : isPlanFull
+                    ? "Plan Full (5/5)"
+                    : "+ Add to Today's Plan"}
               </button>
 
               <button
@@ -264,6 +314,10 @@ export default function WorkoutDetailsPage() {
                 {message}
               </p>
             )}
+
+            <p className="mt-3 text-xs text-gray-500">
+              Today's Plan: {planCount}/5 workouts
+            </p>
 
           </div>
         </div>

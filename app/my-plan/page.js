@@ -13,6 +13,7 @@ export default function MyPlanPage() {
   const [completedWorkouts, setCompletedWorkouts] = useState([]);
   const [sortBy, setSortBy] = useState("duration");
   const [toast, setToast] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Show Toast Notification
   const showToast = (message) => {
@@ -64,6 +65,25 @@ export default function MyPlanPage() {
   // Current Tab Workouts
   const currentWorkouts =
     activeTab === "today" ? todayWorkouts : savedWorkouts;
+    // Filter Workouts by Search
+const filteredWorkouts = currentWorkouts.filter((workout) => {
+  const search = searchTerm.toLowerCase().trim();
+
+  const workoutName = workout.name?.toLowerCase() || "";
+  const equipment = workout.equipment?.toLowerCase() || "";
+  const difficulty = workout.difficulty?.toLowerCase() || "";
+
+  const muscleGroups = Array.isArray(workout.muscleGroups)
+    ? workout.muscleGroups.join(" ").toLowerCase()
+    : "";
+
+  return (
+    workoutName.includes(search) ||
+    equipment.includes(search) ||
+    difficulty.includes(search) ||
+    muscleGroups.includes(search)
+  );
+});
 
   // Statistics
   const totalMinutes = todayWorkouts.reduce(
@@ -77,7 +97,7 @@ export default function MyPlanPage() {
   );
 
   // Sort Workouts
-  const sortedWorkouts = [...currentWorkouts].sort((a, b) => {
+  const sortedWorkouts = [...filteredWorkouts].sort((a, b) => {
     if (sortBy === "calories") {
       return (
         Number(b.caloriesBurned || 0) -
@@ -213,7 +233,16 @@ export default function MyPlanPage() {
           </div>
 
         </div>
-
+        {/* Search Workouts */}
+<div className="mt-6">
+  <input
+    type="text"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    placeholder="Search by workout name, muscle group, equipment..."
+    className="w-full rounded-xl border border-gray-800 bg-[#15181e] px-4 py-3 text-sm text-white outline-none placeholder:text-gray-500 focus:border-[#C2F800]"
+  />
+</div>
         {/* Tabs and Sort */}
         <div className="mt-8 flex flex-col justify-between gap-5 sm:flex-row sm:flex-wrap sm:items-center">
 
