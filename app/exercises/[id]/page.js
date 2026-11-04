@@ -104,22 +104,24 @@ export default function WorkoutDetailsPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#0c0d10] text-white">
-        <p className="text-lg text-gray-400">Loading workout...</p>
+      <main className="flex min-h-screen items-center justify-center bg-[#0c0d10] px-4 text-white">
+        <p className="text-base text-gray-400 sm:text-lg">
+          Loading workout...
+        </p>
       </main>
     );
   }
 
   if (error || !workout) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#0c0d10] text-white">
-        <p className="text-xl text-red-400">
+      <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#0c0d10] px-4 text-center text-white">
+        <p className="break-words text-lg text-red-400 sm:text-xl">
           {error || "Workout not found."}
         </p>
 
         <Link
           href="/"
-          className="rounded-full bg-[#ccff00] px-6 py-3 font-bold text-black"
+          className="rounded-full bg-[#ccff00] px-6 py-3 text-sm font-bold text-black sm:text-base"
         >
           Back to Workouts
         </Link>
@@ -128,41 +130,41 @@ export default function WorkoutDetailsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0c0d10] px-5 py-12 text-white md:px-10">
+    <main className="min-h-screen overflow-x-hidden bg-[#0c0d10] px-4 py-8 text-white sm:px-6 sm:py-12 md:px-10">
       <div className="mx-auto max-w-6xl">
 
         {/* Back Button */}
         <Link
           href="/"
-          className="mb-8 inline-block text-sm text-gray-400 transition hover:text-[#ccff00]"
+          className="mb-6 inline-block text-sm text-gray-400 transition hover:text-[#ccff00] sm:mb-8"
         >
           ← Back to Workouts
         </Link>
 
         {/* Workout Details */}
-        <div className="grid gap-10 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
 
           {/* Workout Image */}
-          <div className="overflow-hidden rounded-2xl border border-[#292b30] bg-[#17191e]">
+          <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#292b30] bg-[#17191e] sm:aspect-[16/10] md:aspect-auto md:min-h-[400px]">
             <img
               src={workout.image}
               alt={workout.name}
-              className="h-full max-h-[500px] min-h-[300px] w-full object-cover"
+              className="h-full w-full object-cover"
             />
           </div>
 
           {/* Workout Information */}
-          <div className="flex flex-col justify-center">
+          <div className="flex min-w-0 flex-col justify-center">
 
-            <p className="mb-3 text-sm font-bold tracking-[3px] text-[#ccff00]">
+            <p className="mb-3 text-xs font-bold tracking-[3px] text-[#ccff00] sm:text-sm">
               WORKOUT DETAILS
             </p>
 
-            <h1 className="mb-5 text-4xl font-extrabold uppercase leading-tight md:text-5xl">
+            <h1 className="mb-5 break-words text-3xl font-extrabold uppercase leading-tight sm:text-4xl md:text-5xl">
               {workout.name}
             </h1>
 
-            <p className="mb-7 leading-7 text-gray-400">
+            <p className="mb-7 text-sm leading-7 text-gray-400 sm:text-base">
               {workout.description}
             </p>
 
@@ -176,7 +178,7 @@ export default function WorkoutDetailsPage() {
                 {workout.muscleGroups?.map((muscle, index) => (
                   <span
                     key={index}
-                    className="rounded-full border border-[#ccff00]/30 bg-[#ccff00]/10 px-4 py-2 text-sm text-[#ccff00]"
+                    className="rounded-full border border-[#ccff00]/30 bg-[#ccff00]/10 px-3 py-2 text-xs text-[#ccff00] sm:px-4 sm:text-sm"
                   >
                     {muscle}
                   </span>
@@ -185,46 +187,46 @@ export default function WorkoutDetailsPage() {
             </div>
 
             {/* Workout Stats */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Equipment</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 break-words text-sm font-semibold sm:text-base">
                   {workout.equipment || "N/A"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Difficulty</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 break-words text-sm font-semibold sm:text-base">
                   {workout.difficulty || "N/A"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Sets</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 text-sm font-semibold sm:text-base">
                   {workout.sets ?? "N/A"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Reps</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 text-sm font-semibold sm:text-base">
                   {workout.reps ?? "N/A"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Duration</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 text-sm font-semibold sm:text-base">
                   {workout.duration ?? "N/A"} min
                 </p>
               </div>
 
-              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-4">
+              <div className="rounded-xl border border-[#292b30] bg-[#17191e] p-3 sm:p-4">
                 <p className="text-xs uppercase text-gray-500">Calories</p>
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 text-sm font-semibold sm:text-base">
                   {workout.caloriesBurned ?? "N/A"} kcal
                 </p>
               </div>
@@ -238,18 +240,18 @@ export default function WorkoutDetailsPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
 
               <button
                 onClick={handleAddToPlan}
-                className="rounded-full bg-[#ccff00] px-7 py-3 font-bold text-black transition hover:bg-white"
+                className="w-full rounded-full bg-[#ccff00] px-5 py-3 text-sm font-bold text-black transition hover:bg-white sm:w-auto sm:px-7 sm:text-base"
               >
                 + Add to Today's Plan
               </button>
 
               <button
                 onClick={handleSaveWorkout}
-                className="rounded-full border border-[#555] px-7 py-3 font-bold text-white transition hover:border-[#ccff00] hover:text-[#ccff00]"
+                className="w-full rounded-full border border-[#555] px-5 py-3 text-sm font-bold text-white transition hover:border-[#ccff00] hover:text-[#ccff00] sm:w-auto sm:px-7 sm:text-base"
               >
                 ♡ Save for Later
               </button>
@@ -258,7 +260,7 @@ export default function WorkoutDetailsPage() {
 
             {/* Feedback Message */}
             {message && (
-              <p className="mt-5 text-sm text-[#ccff00]">
+              <p className="mt-5 break-words text-sm text-[#ccff00]">
                 {message}
               </p>
             )}
@@ -267,8 +269,8 @@ export default function WorkoutDetailsPage() {
         </div>
 
         {/* Instructions */}
-        <section className="mt-16 border-t border-[#292b30] pt-10">
-          <h2 className="mb-6 text-2xl font-bold uppercase">
+        <section className="mt-12 border-t border-[#292b30] pt-8 sm:mt-16 sm:pt-10">
+          <h2 className="mb-6 text-xl font-bold uppercase sm:text-2xl">
             How to Perform
           </h2>
 
@@ -277,19 +279,19 @@ export default function WorkoutDetailsPage() {
               workout.instructions.map((instruction, index) => (
                 <div
                   key={index}
-                  className="flex gap-4 rounded-xl border border-[#292b30] bg-[#17191e] p-5"
+                  className="flex gap-3 rounded-xl border border-[#292b30] bg-[#17191e] p-4 sm:gap-4 sm:p-5"
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ccff00] font-bold text-black">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ccff00] text-sm font-bold text-black">
                     {index + 1}
                   </span>
 
-                  <p className="leading-7 text-gray-300">
+                  <p className="min-w-0 break-words text-sm leading-7 text-gray-300 sm:text-base">
                     {instruction}
                   </p>
                 </div>
               ))
             ) : (
-              <p className="leading-7 text-gray-400">
+              <p className="break-words text-sm leading-7 text-gray-400 sm:text-base">
                 {workout.instructions || "No instructions available."}
               </p>
             )}

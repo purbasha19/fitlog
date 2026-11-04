@@ -68,7 +68,6 @@ function LibrarySection() {
           : data.workouts || data.data || [];
 
         setWorkouts(workoutList);
-        console.log(workoutList);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -87,17 +86,17 @@ function LibrarySection() {
   return (
     <section
       id="library"
-      className="w-full bg-black px-4 py-16 text-white sm:px-6 lg:py-20"
+      className="w-full overflow-hidden bg-black px-4 py-12 text-white sm:px-6 sm:py-16 lg:py-20"
     >
       <div className="mx-auto max-w-[1232px]">
 
         {/* Section Header */}
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <div className="mb-8 sm:mb-10">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
             THE LIBRARY
           </h2>
 
-          <p className="mt-2 text-sm text-gray-400">
+          <p className="mt-2 text-sm text-gray-400 sm:text-base">
             Twelve lifts covering every major muscle group.
           </p>
         </div>
@@ -134,7 +133,7 @@ function LibrarySection() {
 
         {/* Workout Grid */}
         {!loading && !error && workouts.length > 0 && (
-          <div className="grid grid-cols-1 gap-[32px] md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {workouts.map((workout) => (
               <article
                 key={workout.id}
@@ -151,7 +150,7 @@ function LibrarySection() {
                 className="cursor-pointer overflow-hidden rounded-2xl bg-[#1A1A1A] transition-transform duration-300 hover:-translate-y-1"
               >
                 {/* Workout Image */}
-                <div className="h-[200px] w-full overflow-hidden">
+                <div className="h-48 w-full overflow-hidden sm:h-52">
                   <img
                     src={workout.image}
                     alt={workout.name}
@@ -161,7 +160,7 @@ function LibrarySection() {
                 </div>
 
                 {/* Card Content */}
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
 
                   {/* Category Tags */}
                   <div className="mb-4 flex flex-wrap gap-2">
@@ -176,12 +175,12 @@ function LibrarySection() {
                   </div>
 
                   {/* Workout Title */}
-                  <h3 className="text-lg font-bold uppercase text-white">
+                  <h3 className="break-words text-base font-bold uppercase text-white sm:text-lg">
                     {workout.name}
                   </h3>
 
                   {/* Equipment */}
-                  <p className="mt-1 text-sm text-gray-400">
+                  <p className="mt-1 break-words text-sm text-gray-400">
                     {workout.equipment}
                   </p>
 
@@ -189,7 +188,7 @@ function LibrarySection() {
                   <div className="my-5 h-px w-full bg-gray-700/50" />
 
                   {/* Footer Metadata */}
-                  <div className="flex items-center justify-between gap-2 text-xs text-gray-400">
+                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-3 text-xs text-gray-400">
 
                     <div className="flex items-center gap-1.5">
                       <WorkoutIcon type="time" />
